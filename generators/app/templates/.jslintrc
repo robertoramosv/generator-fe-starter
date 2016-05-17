@@ -1,0 +1,14 @@
+{
+    "browser": true,
+    "devel": true,
+    "nomen": true,
+    "plusplus": true,
+    "regexp": true,
+    "unparam": true,
+    "indent": 4,
+    "node": true,
+    "predef": [
+        "jQuery"
+        "grunt"
+    ]
+}

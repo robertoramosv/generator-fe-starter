@@ -1,0 +1,22 @@
+{>"layouts/page.dust"/}
+
+{! set the page title !}
+{<title}{title} - Home{/title}
+{! include page content !}
+{<content}
+    {>"bands/primary-nav/header.dust" controller="PrimaryNavCtrl"/}
+    {>"bands/intro-cover/default" backdground-url="../images/hero.jpg" /}
+    {>"bands/absolute-container/default" background-content="bands/intro-cover/intro-cover-2" absolute-content="content/tabs/homepage-tabs-selector" position="bottom" backdground-url="../images/gwm-placeholder_hero-2.jpg"/}
+    {> "bands/tabs/tabs-selector" controller="TabsSelectorCtrl" theme="homepage--single" center-extended="true" scroll-to-element-id="tabbed-content" /}
+    {>"bands/tabs/tabs-content" id="tabbed-content" content="content/tabs/homepage" /}
+    {>"bands/connect-with-us/connect-with-us"
+    image-url="../images/gmw-connectus-h.jpg"
+    connect-us-description="Talk to a local J.P. Morgan private banker about how our personal service and global reach can work for you."
+    connect-us-title="Let's connect"
+    cta-content="Connect Us"
+    contactOverlayModal="contactOverlayModal"
+    /}
+    {>"bands/back-to-top/back-to-top" /}
+    {>"global-footer" band-css="vertical-gap--external--top" /}
+
+{/content}

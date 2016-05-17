@@ -1,0 +1,11 @@
+{
+    "attr-lower-case": true,
+    "attr-value-not-empty": false,
+    "tag-pair": true,
+    "tag-self-close": true,
+    "tagname-lowercase": true,
+    "id-class-value": true,
+    "id-unique": true,
+    "img-alt-require": true,
+    "img-alt-not-empty": true
+}
