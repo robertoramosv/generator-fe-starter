@@ -1,16 +1,11 @@
-(function() {
+//(function() {
+  var app = angular.module('yoUI', ['ngSanitize']);
 
-  angular
-    .module('yoUI', ['ngSanitize'])
-    .factory('socket', function() {
-      return io();
-    })
-    .directive('yoAutofocus', yoAutofocus)
-    .controller('YoController', YoController);
+  app.factory('socket', function() {
+    return io();
+  });
 
-
-
-  function yoAutofocus() {
+  app.directive('yoAutofocus', function () {
     return {
       restrict: 'A',
       link: function($scope, $element) {
@@ -19,67 +14,9 @@
         }, 0);
       }
     };
-  }
+  });
 
-  function yoNormalizePrompt(prompt) {
-    // Default type is input
-    if(!prompt.type) {
-      prompt.type = 'input';
-    }
-
-    // Confirm prompt could be dropdown ?
-    if(prompt.type === 'confirm') {
-      prompt.choices = [{
-        value: true,
-        name: 'Yes'
-      }, {
-        value: false,
-        name: 'No'
-      }];
-    }
-
-    // Index is useful
-    if(prompt.choices && prompt.choices.length) {
-      if(typeof prompt.choices[0] === 'string') {
-        prompt.choices = prompt.choices.map(function(choice, index) {
-          return {
-            key: choice.substr(0, 1),
-            value: prompt.type === 'list' ? choice : index,
-            name: choice
-          };
-        });
-      }
-
-      prompt.choices.forEach(function(choice, index) {
-        choice.index = index;
-      });
-    }
-
-    if(!prompt.default && prompt.type === 'expand') {
-      prompt.default = 0;
-    }
-
-    prompt.value = prompt.default;
-
-    return prompt;
-  }
-
-  function yoNormalizeAnswer(prompt) {
-    if(prompt.type === 'checkbox') {
-      prompt.value = [];
-      prompt.choices.forEach(function(choice) {
-        if(choice.checked) {
-          prompt.value.push(choice.value);
-        }
-      });
-    }
-
-    // console.log('prompt.value: ', prompt.value);
-
-    return prompt.value;
-  }
-
-  function YoController($scope, $sce, socket) {
+  app.controller('YoController', ['$scope', '$sce', 'socket', function ($scope, $sce, socket) {
     var self = this;
 
     self.generator = null;
@@ -93,8 +30,11 @@
     self.reset();
 
     socket.on('yo:list', function(generators) {
+      console.log(generators);
       self.generators = generators;
+      self.generator = generators[0];
       self.scopeApply();
+      self.updateGenerator();
     });
 
     socket.emit('yo:list');
@@ -173,5 +113,61 @@
         $scope.$apply();
       }
     }
+  }]);
+
+  function yoNormalizePrompt(prompt) {
+    // Default type is input
+    if(!prompt.type) {
+      prompt.type = 'input';
+    }
+
+    // Confirm prompt could be dropdown ?
+    if(prompt.type === 'confirm') {
+      prompt.choices = [{
+        value: true,
+        name: 'Yes'
+      }, {
+        value: false,
+        name: 'No'
+      }];
+    }
+
+    // Index is useful
+    if(prompt.choices && prompt.choices.length) {
+      if(typeof prompt.choices[0] === 'string') {
+        prompt.choices = prompt.choices.map(function(choice, index) {
+          return {
+            key: choice.substr(0, 1),
+            value: prompt.type === 'list' ? choice : index,
+            name: choice
+          };
+        });
+      }
+
+      prompt.choices.forEach(function(choice, index) {
+        choice.index = index;
+      });
+    }
+
+    if(!prompt.default && prompt.type === 'expand') {
+      prompt.default = 0;
+    }
+
+    prompt.value = prompt.default;
+
+    return prompt;
   }
-})();
+
+  function yoNormalizeAnswer(prompt) {
+    if(prompt.type === 'checkbox') {
+      prompt.value = [];
+      prompt.choices.forEach(function(choice) {
+        if(choice.checked) {
+          prompt.value.push(choice.value);
+        }
+      });
+    }
+
+    return prompt.value;
+  }
+//})();

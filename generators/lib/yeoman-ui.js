@@ -16,48 +16,47 @@ module.exports = {
 };
 
 function init(socket, onRun, onEnd) {
+  var distFolderPath = path.join(__dirname, '../', '/dist/');
+
   // Clean dist folder
-  var distFolderPath = path.join(__dirname, '../', 'dist/');
   if(fs.existsSync(distFolderPath)) {
-    rimraf.sync(path.join(distFolderPath, '*'));
-    rimraf.sync(path.join(distFolderPath, '.*'));
+    try {
+      rimraf.sync(path.join(distFolderPath, '*'));
+      rimraf.sync(path.join(distFolderPath, '.*'));
+    }
+    catch (err) {
+      console.log('rimraf: ' + err);
+    }
   } else {
     fs.mkdirSync(distFolderPath);
   }
 
   socket.on('yo:run', function(data) {
-    // TODO : move dist preparation
+    // Move dist files
     var distId = shortid.generate();
     var distName = data.namespace.replace(/(:|\/)/gi, '-');
-
     var distIdPath = path.join(distFolderPath, distId);
     var distPath = path.join(distFolderPath, distId, distName);
+
     fs.mkdirSync(distIdPath);
     fs.mkdirSync(distPath);
-    fs.writeFileSync(path.join(distPath, '.yo-rc.json'), '{"id": "' + distId + '", "date": "' + new Date() + '"}', {
-      flag: 'w'
-    });
 
-    // Temporary workaround about this : https://github.com/yeoman/generator/issues/861
     try {
       process.chdir(distPath);
-      // console.log('New process.cwd: ' + process.cwd());
     }
     catch (err) {
       console.log('chdir: ' + err);
     }
 
-    run(data.namespace, socket, {}, {
-      'skip-install': true
-    }, function() {
-
-      // TODO : move dist archive
+    run(data.namespace, socket, {}, { 'skip-install': true }, function() {
+      // Move dist archive
       var archive = archiver.create('zip', {});
       var output = fs.createWriteStream(path.join(distFolderPath, distId, distName + '.zip'));
 
       output.on('close', function() {
-        console.log(archive.pointer() + ' total bytes');
-        console.log('archiver has been finalized and the output file descriptor has closed.');
+        console.log('Project has been created.');
+        console.log('File: ' + distName + '.zip');
+        console.log('Size: ' + archive.pointer() + ' total bytes');
 
         socket.emit('yo:end', {
           distId: distId,
@@ -93,6 +92,7 @@ function run(namespace, socket, envOptions, runOptions, cb) {
 }
 
 function list(cb) {
+  var config = require(path.join(__dirname, '../', '/config.json'));
   var env = yeoman.createEnv();
   env.lookup(function () {
     var generators = env.getGeneratorsMeta();
@@ -103,22 +103,25 @@ function list(cb) {
       var namespace = gen.namespace.split(':');
       var name = namespace[0];
       var subname = namespace[1];
-      var generator = {
-        name: name,
-        namespace: namespace.join(':'),
-        resolved: gen.resolved
-      };
 
-      if(!generatorsObj.hasOwnProperty(name)) {
-        generator.subgenerators = [];
-        generatorsObj[name] = generator;
-        generatorsList.push(generator);
+      if (config.generator === name) {
+        var generator = {
+          name: name,
+          namespace: namespace.join(':'),
+          resolved: gen.resolved
+        };
+
+        if(!generatorsObj.hasOwnProperty(name)) {
+          generator.subgenerators = [];
+          generatorsObj[name] = generator;
+          generatorsList.push(generator);
+        }
+
+        generatorsObj[name].subgenerators.push({
+          name: subname,
+          namespace: namespace.join(':')
+        });
       }
-
-      generatorsObj[name].subgenerators.push({
-        name: subname,
-        namespace: namespace.join(':')
-      });
     });
 
     return cb(generatorsList);

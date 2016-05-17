@@ -1,5 +1,4 @@
-angular
-  .module('app', [
-    'ngSanitize',
-    'yoUI'
-  ])
+var app = angular.module('app', [
+  'ngSanitize',
+  'yoUI'
+]);

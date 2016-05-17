@@ -3,7 +3,6 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var path = require('path');
-
 var yoUI = require('./generators/lib/yeoman-ui');
 
 io.on('connection', function(socket) {

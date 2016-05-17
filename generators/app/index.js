@@ -14,13 +14,13 @@ module.exports = generators.Base.extend({
 
   initializing: function () {
     this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
-    this.config = this.fs.readJSON(this.destinationPath('config.json'), {});
-    this.projectAppPath = this.config.projectAppPath || 'app';
-    this.projectPath = this.config.projectPath || 'my-project';
+    this.conf = this.fs.readJSON(path.join(__dirname, '../', '/config.json'), {});
+    this.projectAppPath = this.conf.projectAppPath || 'app';
+    this.projectPath = this.conf.projectPath || 'my-project';
     this.destinationRoot(this.projectPath);
 
     //Show Start Message
-    this.log(yosay(this.config.message));
+    this.log(yosay(this.conf.message));
   },
 
   prompting: function () {
