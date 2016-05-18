@@ -38,6 +38,7 @@ module.exports = generators.Base.extend({
         type: 'list',
         name: 'cssProcessorsList',
         message: chalk.white('What kind of ' + chalk.cyan('CSS Pre-processor') + ' would you like?'),
+        default: 'sass',
         choices: [
           {
             name: 'Sass',
@@ -62,11 +63,8 @@ module.exports = generators.Base.extend({
         type: 'list',
         name: 'templateEnginesList',
         message: chalk.white('What ' + chalk.cyan('JavaScript Code Quality Tool') + ' would you like?'),
+        default: 'handlebars',
         choices: [
-          {
-            name: 'EJS',
-            value: 'ejs'
-          },
           {
             name: 'Handlebars',
             value: 'handlebars'
@@ -74,6 +72,10 @@ module.exports = generators.Base.extend({
           {
             name: 'Dust',
             value: 'dust'
+          },
+          {
+            name: 'EJS',
+            value: 'ejs'
           }
         ],
         when: function (answers) {
@@ -90,6 +92,7 @@ module.exports = generators.Base.extend({
         type: 'list',
         name: 'jsLintersList',
         message: chalk.white('What kind of ' + chalk.cyan('JavaScript Code Quality Tool') + ' would you like?'),
+        default: 'jshint',
         choices: [
           {
             name: 'JSHint',
@@ -120,6 +123,7 @@ module.exports = generators.Base.extend({
         type: 'list',
         name: 'serversList',
         message: chalk.white('What kind of ' + chalk.cyan('Server') + ' would you like?'),
+        default: 'express',
         choices: [
           {
             name: 'Express Server',
