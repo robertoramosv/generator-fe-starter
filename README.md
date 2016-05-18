@@ -30,6 +30,7 @@ npm link
 Run it:
 ```
 node fe-starter
+```
 
 Open in your browser:
 ```
