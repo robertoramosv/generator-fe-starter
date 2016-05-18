@@ -29,5 +29,10 @@ npm link
 
 Run it:
 ```
-yo fe-starter
+node fe-starter
+
+Open in your browser:
+```
+http://localhost:3000/
+
 ```
