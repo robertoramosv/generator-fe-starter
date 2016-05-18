@@ -16,7 +16,7 @@
     };
   });
 
-  app.controller('YoController', ['$scope', '$sce', 'socket', function ($scope, $sce, socket) {
+  app.controller('YoController', ['$scope', '$sce', 'socket', '$timeout', function ($scope, $sce, socket, $timeout) {
     var self = this;
 
     self.generator = null;
@@ -63,6 +63,10 @@
     socket.on('yo:end', function(data) {
       if(data.distId && data.distName) {
         window.location.href = '/dist/' + data.distId + '/' + data.distName;
+
+        $timeout(function() {
+          window.location.href = '/';
+        }, 3000);
       } else {
         alert('Sorry, an error has occured :(');
       }

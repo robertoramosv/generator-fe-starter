@@ -51,12 +51,12 @@ var SocketAdapter = module.exports = function(socket) {
       function onPrompt(data) {
 
         if(data.question.name !== question.name) {
-          question.error = 'Mauvaise question...';
+          question.error = '';
           return prompt(question);
         }
 
         if(question.validate(data.answer) !== true) {
-          question.error = question.validate(data.answer) || 'Mauvaise réponse...';
+          question.error = question.validate(data.answer) || '';
           question.default = data.answer;
           return prompt(question);
         }
