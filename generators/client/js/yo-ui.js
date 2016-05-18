@@ -26,11 +26,11 @@
     self.submit = _submit;
     self.reset = _reset;
     self.scopeApply = _scopeApply;
+    self.restart = _restart;
 
     self.reset();
 
     socket.on('yo:list', function(generators) {
-      console.log(generators);
       self.generators = generators;
       self.generator = generators[0];
       self.scopeApply();
@@ -62,13 +62,10 @@
 
     socket.on('yo:end', function(data) {
       if(data.distId && data.distName) {
+        $scope.success = true;
         window.location.href = '/dist/' + data.distId + '/' + data.distName;
-
-        $timeout(function() {
-          window.location.href = '/';
-        }, 3000);
       } else {
-        alert('Sorry, an error has occured :(');
+        $scope.success = false;
       }
 
       self.generator = null;
@@ -116,6 +113,10 @@
       if (!$scope.$$phase) {
         $scope.$apply();
       }
+    }
+
+    function _restart() {
+      window.location.href = '/';
     }
   }]);
 

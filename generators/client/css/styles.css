@@ -1,0 +1,16 @@
+.panel {
+    margin-top: 30px;
+}
+
+legend {
+    margin-bottom: 0;
+}
+
+.form-group {
+    margin-top: 15px;
+    padding-bottom: 15px;
+}
+
+.form-horizontal label {
+    text-align: left;
+}

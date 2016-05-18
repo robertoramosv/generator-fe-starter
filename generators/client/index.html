@@ -11,6 +11,8 @@
   <!-- Bootstrap Material Design -->
   <link rel="stylesheet" type="text/css" href="css/vendors/bootstrap-material-design.min.css">
   <link rel="stylesheet" type="text/css" href="css/vendors/ripples.min.css">
+  <!-- Styles -->
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body ng-app="app">
   <div class="container">
@@ -21,8 +23,20 @@
             <h1 class="modal-title text-center">FE Starter</h1>
           </div>
           <div class="panel-body">
+            <div ng-if="success === true">
+              <h4>The project was generated successfully!</h4>
+              <div class="text-right">
+                <button type="button" class="btn btn-raised btn-primary" ng-click="yoCtrl.restart()">Continue</button>
+              </div>
+            </div>
+            <div ng-if="success === false">
+              <h4 class="text-danger">Sorry, an error has occured!</h4>
+              <div class="text-right">
+                <button type="button" class="btn btn-raised btn-primary" ng-click="yoCtrl.restart()">Try Again</button>
+              </div>
+            </div>
             <div ng-if="yoCtrl.prompts.length">
-              <pre ng-bind-html="yoCtrl.logs" class="console-log" style="min-height: 40px;"></pre>
+              <pre class="hidden-xs" ng-bind-html="yoCtrl.logs"></pre>
               <hr/>
               <form class="form-horizontal" name="yoForm" ng-submit="yoCtrl.submit()">
                 <fieldset>
@@ -74,7 +88,8 @@
                   </div>
 
                   <div class="text-right">
-                    <button type="submit" class="btn btn-raised btn-primary">Continue ></button>
+                    <a href="javascript:void(0)" class="btn btn-raised btn-primary">Primary<div class="ripple-container"></div></a>
+                    <button type="submit" class="btn btn-raised btn-primary" data-ripple-color="#F0F0F0">Continue</button>
                   </div>
                 </fieldset>
               </form>
@@ -87,8 +102,8 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/vendors/jquery-1.12.3.min.js"></script>
   <script src="/js/vendors/bootstrap.min.js"></script>
-  <script src="/js/vendors/material.min.js"></script>
   <script src="/js/vendors/ripples.min.js"></script>
+  <script src="/js/vendors/material.min.js"></script>
   <script src="/js/vendors/angular.min.js"></script>
   <script src="/js/vendors/angular-sanitize.min.js"></script>
   <script src="/js/yo-ui.js"></script>
