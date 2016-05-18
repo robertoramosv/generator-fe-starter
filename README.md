@@ -35,5 +35,4 @@ node fe-starter
 Open in your browser:
 ```
 http://localhost:3000/
-
 ```
