@@ -3,9 +3,8 @@ var yosay = require('yosay');
 var path = require('path');
 var rimraf = require('rimraf');
 var mkdirp = require('mkdirp');
-//var chalk = require('chalk');
-//var wiredep = require('wiredep');
-//var _ = require('lodash');
+var wiredep = require('wiredep');
+var _ = require('lodash');
 
 module.exports = generators.Base.extend({
   constructor: function () {
@@ -14,13 +13,12 @@ module.exports = generators.Base.extend({
 
   initializing: function () {
     this.pkg = this.fs.readJSON(path.join(this.destinationPath(), 'package.json'), {});
-    this.config = this.fs.readJSON(path.join(__dirname, '/config.json'), {});
-    this.project = this.config.project || 'new-project';
-    this.app = this.config.app || 'app';
-    this.destinationRoot(this.project);
+    this.conf = this.fs.readJSON(path.join(__dirname, '../config.json'), {});
+    this.project = this.conf.project || 'new-project';
+    this.app = this.conf.app || 'app';
 
     //Show Start Message
-    this.log(yosay(this.config.message));
+    this.log(yosay(this.conf.message));
   },
 
   prompting: function () {
@@ -169,13 +167,6 @@ module.exports = generators.Base.extend({
   },
 
   writing: {
-    cleanFolder: function () {
-      if (this.fs.exists(path.join(this.destinationRoot(), 'package.json'))) {
-        rimraf.sync(path.join(this.destinationRoot(), '*'));
-        rimraf.sync(path.join(this.destinationRoot(), '.*'));
-      }
-    },
-
     createFolderStructure: function () {
       mkdirp.sync(path.join(this.destinationPath(this.app), '/css'));
       mkdirp.sync(path.join(this.destinationPath(this.app), '/js'));
@@ -184,7 +175,6 @@ module.exports = generators.Base.extend({
     },
 
     copyCSS: function () {
-      console.log(this.userAnswers.cssProcessors);
       if (this.userAnswers.cssProcessors.sass) {
         this.fs.copy(
           path.join(this.sourceRoot(), '/css/scss/**/*'),

@@ -1,4 +1,4 @@
-# Generator by Front-end Projects
+# Generator: FE Starter Project
 
 > This generator allows you to create a FE Starter Project in an easy way.
 
@@ -6,11 +6,17 @@
 
 ### What can you do?
 This generator allows you to create a FE Starter Project using technologies such as:
-* CSS Pre-processor (LESS, SASS).
-* Javascript Templating Engine (Dust, Handlebars, Ejs).
-* JavaScript Code Quality Tool (JsLint, JsHint).
+
+* CSS Pre-processor (SASS, LESS).
+
+* Javascript Templating Engine (Handlebars, Dust, Ejs).
+
+* JavaScript Code Quality Tool (JsHint, JsLint).
+
 * JSCodeSniffer.
+
 * HTMLHint.
+
 * Server (Express Server, Connect Web Server).
 
 ### Usage

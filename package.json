@@ -1,15 +1,14 @@
 {
-  "name": "generator-fe-starter",
+  "name": "generator-fe-basic",
+  "description": "Generator: FE Basic Project",
   "version": "1.0.0",
-  "description": "Generator by Front-end Projects",
   "author": [
-    "Roberto Ramos Vargas"
+    "Roberto Ramos <roberto.ramosv@gmail.com>",
   ],
-  "files": [
-    "generators/app",
-    "generators/client",
-    "generators/lib"
-  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robertoramosv/generator-fe-starter"
+  },
   "keywords": [
     "yeoman-generator",
     "grunt"
@@ -17,24 +16,34 @@
   "dependencies": {
     "yeoman-generator": "^0.22.5",
     "yeoman-environment": "^1.6.1",
-    "yosay": "^1.1.1",
-    "chalk": "^1.1.3",
+    "yosay": "^1.2.0",
     "mkdirp": "^0.5.1",
     "wiredep": "^4.0.0",
-    "socket.io": "^1.4.6",
-    "express": "^4.13.4",
+    "socket.io": "^1.4.8",
+    "express": "^4.14.0",
     "ansi-to-html": "^0.4.1",
     "archiver": "^1.0.0",
     "autolinker": "^0.26.0",
-    "lodash": "^4.12.0",
+    "lodash": "^4.13.1",
     "shortid": "^2.2.6",
     "rimraf": "^2.5.2",
     "node-uuid": "^1.4.7",
-    "diff": "^2.2.2",
+    "diff": "^2.2.3",
     "striptags": "^2.1.1"
   },
   "devDependencies": {
     "yeoman-assert": "^2.2.1",
     "yeoman-test": "^1.4.0"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "files": [
+    "generators/app",
+    "generators/client",
+    "generators/lib"
+  ],
+  "scripts": {
+    "start": "node fe-starter.js"
   }
 }

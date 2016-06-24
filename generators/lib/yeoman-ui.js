@@ -16,13 +16,13 @@ module.exports = {
 };
 
 function init(socket, onRun, onEnd) {
-  var distFolderPath = path.join(__dirname, '../', '/dist/');
+  var distFolderPath = path.join(__dirname, '../dist/');
 
   // Clean dist folder
   if(fs.existsSync(distFolderPath)) {
     try {
-      rimraf.sync(path.join(distFolderPath, '*'));
-      rimraf.sync(path.join(distFolderPath, '.*'));
+      rimraf.sync(path.join(distFolderPath, '/**/*'));
+      rimraf.sync(path.join(distFolderPath, '/**/*.*'));
     }
     catch (err) {
       console.log('rimraf: ' + err);
@@ -92,7 +92,7 @@ function run(namespace, socket, envOptions, runOptions, cb) {
 }
 
 function list(cb) {
-  var config = require(path.join(__dirname, '../', '/config.json'));
+  var config = require(path.join(__dirname, '../config.json'));
   var env = yeoman.createEnv();
   env.lookup(function () {
     var generators = env.getGeneratorsMeta();
