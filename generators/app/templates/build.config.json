@@ -1,0 +1,115 @@
+{
+    "css": {
+        "sass": {
+            "compass": false
+        },
+        "files": {
+            "<%= dirs.build %>/css/styles.css": "<%= dirs.css %>/styles.scss",
+            "<%= dirs.build %>/css/libraries.css": "<%= dirs.css %>/libraries.scss",
+            "<%= dirs.build %>/css/showcases.css": "<%= dirs.css %>/showcases.scss"
+        }
+    },
+    "group_css_media_queries": {
+        "files": {
+            "<%= dirs.build %>/css/styles.css": ["<%= dirs.build %>/css/styles.css"]
+        }
+    },
+    "js": {
+        "angular": {
+            "ngAnnotate": {
+                "enabled": true,
+                "files": {
+                    "<%= dirs.build_js %>/site.js": ["<%= dirs.build_js %>/site.js"]
+                }
+            },
+            "templates": {
+                "module": "gwm.templates",
+                "standalone": true,
+                "prefix": "",
+                "src": "<%= dirs.js_site %>"
+            }
+        },
+        "files": {
+            "<%= dirs.build_js %>/ie-shims.js": [
+                "<%= dirs.js_vendor %>/html5shiv.js",
+                "<%= dirs.js_vendor %>/respond.js",
+                "<%= dirs.js_vendor %>/vminpoly/tokenizer.js",
+                "<%= dirs.js_vendor %>/vminpoly/parser.js",
+                "<%= dirs.js_vendor %>/vminpoly/vminpoly.js"
+            ],
+            "<%= dirs.build_js %>/libraries.js": [
+                "<%= dirs.js_vendor %>/mobile-detect/mobile-detect.js",
+                "<%= dirs.js_vendor %>/modernizr/modernizr.custom.js",
+                "<%= dirs.js_vendor %>/jquery/jquery-1.11.3.js",
+                "<%= dirs.js_vendor %>/angular/angular.js",
+                "<%= dirs.js_vendor %>/angular/angular-animate.js",
+                "<%= dirs.js_vendor %>/angular/angular-sanitize.js",
+                "<%= dirs.js_vendor %>/angular/angular-touch.js",
+                "<%= dirs.js_vendor %>/angular/angular-cookies.js",
+                "<%= dirs.js_vendor %>/slick/slick.js",
+                "<%= dirs.js_vendor %>/angular-slick/angular-slick.js",
+                "<%= dirs.js_vendor %>/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"
+
+            ],
+            "<%= dirs.build_js %>/site.js": [
+                "<%= dirs.js_site %>/*/*.module.js",
+                "<%= dirs.js_site %>/*/*.js",
+                "!<%= dirs.js_site %>/*/*.spec.js",
+                "<%= dirs.tmp_js %>/templates/**/*.js",
+                "<%= dirs.js_site %>/**/app*.js"
+            ],
+            "<%= dirs.build_js %>/showcases.js": [
+                "<%= dirs.js_showcase %>/*/*.module.js",
+                "<%= dirs.js_showcase %>/*/*.js",
+                "!<%= dirs.js_showcase %>/*/*.spec.js",
+                "<%= dirs.tmp_js %>/templates/**/*.js",
+                "<%= dirs.js_showcase %>/**/app*.js"
+            ]
+        }
+    },
+    "templates": {
+        "model": {
+            "title": "GWM Public Site"
+        },
+        "handlebars": {
+            "helpers": false
+        },
+        "dust": {
+            "files": [
+                {
+                    "expand": true,
+                    "cwd": "<%= dirs.templates %>",
+                    "src": ["*.dust", "**/*.dust", "!partials/**/*.dust", "!**/_*.dust"],
+                    "dest": "<%= dirs.build %>",
+                    "ext": ".html"
+                }
+            ]
+        }
+    },
+    "karma": {
+        "files": {
+            "libraries": [
+                "<%= dirs.js_vendor %>/jquery/jquery-1.11.3.js",
+                "<%= dirs.js_vendor %>/angular/angular.js",
+                "<%= dirs.js_vendor %>/angular/*.js",
+                "<%= dirs.js %>/tests/unit/helpers/**/*.js",
+                "<%= dirs.tmp_js %>/templates/**/*.js"
+            ],
+            "code": [
+                "<%= dirs.js_site %>/**/*.module.js",
+                "<%= dirs.js_site %>/**/*.js"
+            ],
+            "tests": [
+                "<%= dirs.js_site %>/**/*.spec.js"
+            ],
+            "exclude": []
+        }
+    },
+    "jsdoc": {
+        "configuration": "./node_modules/angular-jsdoc/conf.json",
+        "template": "./node_modules/angular-jsdoc/template"
+    },
+    "server": {
+        "port": 9001
+    }
+}

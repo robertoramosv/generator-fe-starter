@@ -5,7 +5,7 @@
 ## Getting Started
 
 ### What can you do?
-This generator allows you to create a FE Starter Project using thecnologies such as:
+This generator allows you to create a FE Starter Project using technologies such as:
 * CSS Pre-processor (LESS, SASS).
 * Javascript Templating Engine (Dust, Handlebars, Ejs).
 * JavaScript Code Quality Tool (JsLint, JsHint).

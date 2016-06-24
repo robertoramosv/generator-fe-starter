@@ -1,6 +1,7 @@
 {
+  
+  "generator": "fe-starter",
   "message": "Welcome to the Generator of Front-end Projects!",
-  "projectPath": "my-project",
-  "projectAppPath": "app",
-  "generator": "fe-starter"
+  "project": "new-project",
+  "app": "app"
 }

@@ -1,11 +1,11 @@
 var generators = require('yeoman-generator');
 var yosay = require('yosay');
-var chalk = require('chalk');
-var wiredep = require('wiredep');
-var mkdirp = require('mkdirp');
-var _ = require('lodash');
 var path = require('path');
 var rimraf = require('rimraf');
+var mkdirp = require('mkdirp');
+//var chalk = require('chalk');
+//var wiredep = require('wiredep');
+//var _ = require('lodash');
 
 module.exports = generators.Base.extend({
   constructor: function () {
@@ -13,14 +13,14 @@ module.exports = generators.Base.extend({
   },
 
   initializing: function () {
-    this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
-    this.conf = this.fs.readJSON(path.join(__dirname, '../', '/config.json'), {});
-    this.projectAppPath = this.conf.projectAppPath || 'app';
-    this.projectPath = this.conf.projectPath || 'my-project';
-    this.destinationRoot(this.projectPath);
+    this.pkg = this.fs.readJSON(path.join(this.destinationPath(), 'package.json'), {});
+    this.config = this.fs.readJSON(path.join(__dirname, '/config.json'), {});
+    this.project = this.config.project || 'new-project';
+    this.app = this.config.app || 'app';
+    this.destinationRoot(this.project);
 
     //Show Start Message
-    this.log(yosay(this.conf.message));
+    this.log(yosay(this.config.message));
   },
 
   prompting: function () {
@@ -31,13 +31,13 @@ module.exports = generators.Base.extend({
       {
         type: 'confirm',
         name: 'cssProcessors',
-        message: chalk.white('Would you like to include a ' + chalk.cyan('CSS Pre-processor') + '?'),
+        message: 'Would you like to include a CSS Pre-processor?',
         default: true
       },
       {
         type: 'list',
         name: 'cssProcessorsList',
-        message: chalk.white('What kind of ' + chalk.cyan('CSS Pre-processor') + ' would you like?'),
+        message: 'What kind of CSS Pre-processor would you like?',
         default: 'sass',
         choices: [
           {
@@ -56,13 +56,13 @@ module.exports = generators.Base.extend({
       {
         type: 'confirm',
         name: 'templateEngines',
-        message: chalk.white('Would you like to include a ' + chalk.cyan('Javascript Templating Engine') + '?'),
+        message: 'Would you like to include a Javascript Templating Engine?',
         default: true
       },
       {
         type: 'list',
         name: 'templateEnginesList',
-        message: chalk.white('What ' + chalk.cyan('JavaScript Code Quality Tool') + ' would you like?'),
+        message: 'What JavaScript Code Quality Tool would you like?',
         default: 'handlebars',
         choices: [
           {
@@ -85,13 +85,13 @@ module.exports = generators.Base.extend({
       {
         type: 'confirm',
         name: 'jsLinters',
-        message: chalk.white('Would you like to include a ' + chalk.cyan('JavaScript Code Quality Tool') + '?'),
+        message: 'Would you like to include a JavaScript Code Quality Tool?',
         default: true
       },
       {
         type: 'list',
         name: 'jsLintersList',
-        message: chalk.white('What kind of ' + chalk.cyan('JavaScript Code Quality Tool') + ' would you like?'),
+        message: 'What kind of JavaScript Code Quality Tool would you like?',
         default: 'jshint',
         choices: [
           {
@@ -110,19 +110,19 @@ module.exports = generators.Base.extend({
       {
         type: 'confirm',
         name: 'jsCodeSniffer',
-        message: chalk.white('Would you like to include ' + chalk.cyan('JSCodeSniffer') + '?'),
+        message: 'Would you like to include JSCodeSniffer?',
         default: true
       },
       {
         type: 'confirm',
         name: 'htmlHint',
-        message: chalk.white('Would you like to include ' + chalk.cyan('HTMLHint') + '?'),
+        message: 'Would you like to include HTMLHint?',
         default: true
       },
       {
         type: 'list',
         name: 'serversList',
-        message: chalk.white('What kind of ' + chalk.cyan('Server') + ' would you like?'),
+        message: 'What kind of Server would you like?',
         default: 'express',
         choices: [
           {
@@ -168,7 +168,6 @@ module.exports = generators.Base.extend({
     }.bind(this));
   },
 
-
   writing: {
     cleanFolder: function () {
       if (this.fs.exists(path.join(this.destinationRoot(), 'package.json'))) {
@@ -178,27 +177,28 @@ module.exports = generators.Base.extend({
     },
 
     createFolderStructure: function () {
-      mkdirp.sync(path.join(this.destinationRoot(), this.projectAppPath, '/css'));
-      mkdirp.sync(path.join(this.destinationRoot(), this.projectAppPath, '/js'));
-      mkdirp.sync(path.join(this.destinationRoot(), this.projectAppPath, '/images'));
-      mkdirp.sync(path.join(this.destinationRoot(), this.projectAppPath, '/fonts'));
+      mkdirp.sync(path.join(this.destinationPath(this.app), '/css'));
+      mkdirp.sync(path.join(this.destinationPath(this.app), '/js'));
+      mkdirp.sync(path.join(this.destinationPath(this.app), '/images'));
+      mkdirp.sync(path.join(this.destinationPath(this.app), '/fonts'));
     },
 
     copyCSS: function () {
+      console.log(this.userAnswers.cssProcessors);
       if (this.userAnswers.cssProcessors.sass) {
         this.fs.copy(
           path.join(this.sourceRoot(), '/css/scss/**/*'),
-          path.join(this.destinationRoot(), this.projectAppPath, '/css')
+          path.join(this.destinationPath(this.app), '/css')
         );
       } else if (this.userAnswers.cssProcessors.less) {
         this.fs.copy(
           path.join(this.sourceRoot(), '/css/less/**/*'),
-          path.join(this.destinationRoot(), this.projectAppPath, '/css')
+          path.join(this.destinationPath(this.app), '/css')
         );
       } else {
         this.fs.copy(
           path.join(this.sourceRoot(), '/css/dist/**/*'),
-          path.join(this.destinationRoot(), this.projectAppPath, '/css')
+          path.join(this.destinationPath(this.app), '/css')
         );
       }
     },
@@ -206,21 +206,21 @@ module.exports = generators.Base.extend({
     copyJS: function () {
       this.fs.copy(
         path.join(this.sourceRoot(), '/js/**/*'),
-        path.join(this.destinationRoot(), this.projectAppPath, '/js')
+        path.join(this.destinationPath(this.app), '/js')
       );
     },
 
     copyImages: function () {
       this.fs.copy(
         path.join(this.sourceRoot(), '/images/**/*'),
-        path.join(this.destinationRoot(), this.projectAppPath, '/images')
+        path.join(this.destinationPath(this.app), '/images')
       );
     },
 
     copyFonts: function () {
       this.fs.copy(
         path.join(this.sourceRoot(), '/fonts/**/*'),
-        path.join(this.destinationRoot(), this.projectAppPath, '/fonts')
+        path.join(this.destinationPath(this.app), '/fonts')
       );
     },
 
@@ -228,29 +228,29 @@ module.exports = generators.Base.extend({
       if (this.userAnswers.templateEngines.ejs) {
         this.fs.copy(
           path.join(this.sourceRoot(), '/templates/ejs/**/*'),
-          path.join(this.destinationRoot(), this.projectAppPath, '/templates')
+          path.join(this.destinationPath(this.app), '/templates')
         );
       } else if (this.userAnswers.templateEngines.handlebars) {
         this.fs.copy(
           path.join(this.sourceRoot(), '/templates/handlebars/**/*'),
-          path.join(this.destinationRoot(), this.projectAppPath, '/templates')
+          path.join(this.destinationPath(this.app), '/templates')
         );
       } else if (this.userAnswers.templateEngines.dust) {
         this.fs.copy(
           path.join(this.sourceRoot(), '/templates/dust/**/*'),
-          path.join(this.destinationRoot(), this.projectAppPath, '/templates')
+          path.join(this.destinationPath(this.app), '/templates')
         );
       } else {
         this.fs.copy(
           path.join(this.sourceRoot(), '/templates/dist/**/*'),
-          path.join(this.destinationRoot(), this.projectAppPath)
+          path.join(this.destinationPath(this.app))
         );
       }
     },
 
     packageJSON: function () {
       this.fs.copyTpl(
-        path.join(this.sourceRoot(), '_package.json'),
+        path.join(this.sourceRoot(), 'package.json'),
         path.join(this.destinationRoot(), 'package.json'),
         {
           userAnswers: this.userAnswers
