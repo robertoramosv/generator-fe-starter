@@ -2,9 +2,8 @@
   "name": "generator-fe-starter",
   "description": "Generator: FE Basic Project",
   "version": "1.0.0",
-  "author": [
-    "Roberto Ramos <roberto.ramosv@gmail.com>"
-  ],
+  "author": "Roberto Ramos Vargas <roberto.ramosv@gmail.com>",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/robertoramosv/generator-fe-starter"
